@@ -17,6 +17,15 @@
         }
         h1 { margin-bottom: 20px; }
         .value { font-size: 1.5rem; margin: 5px; }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0f0;
+            color: #111;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -24,61 +33,43 @@
     <div class="value" id="x">X: 0</div>
     <div class="value" id="y">Y: 0</div>
     <div class="value" id="z">Z: 0</div>
+    <button id="start">Starta mätning</button>
 
     <script>
-        if (window.DeviceMotionEvent) {
-            window.addEventListener("devicemotion", event => {
-                const a = event.accelerationIncludingGravity;
-                if (!a) return;
-                document.getElementById("x").textContent = "X: " + a.x.toFixed(2);
-                document.getElementById("y").textContent = "Y: " + a.y.toFixed(2);
-                document.getElementById("z").textContent = "Z: " + a.z.toFixed(2);
-            });
-        } else {
-            document.body.innerHTML = "<h2>Din enhet stöder inte accelerometer 😡</h2>";
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <title>Accelerometer-data</title>
-    <style>
-        body {
-            background: #111;
-            color: #0f0;
-            font-family: monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
-        h1 { margin-bottom: 20px; }
-        .value { font-size: 1.5rem; margin: 5px; }
-    </style>
-</head>
-<body>
-    <h1>📱 Accelerometer</h1>
-    <div class="value" id="x">X: 0</div>
-    <div class="value" id="y">Y: 0</div>
-    <div class="value" id="z">Z: 0</div>
+        const xEl = document.getElementById("x");
+        const yEl = document.getElementById("y");
+        const zEl = document.getElementById("z");
+        const btn = document.getElementById("start");
 
-    <script>
-        if (window.DeviceMotionEvent) {
-            window.addEventListener("devicemotion", event => {
-                const a = event.accelerationIncludingGravity;
+        function startMotion() {
+            window.addEventListener("devicemotion", e => {
+                const a = e.accelerationIncludingGravity;
                 if (!a) return;
-                document.getElementById("x").textContent = "X: " + a.x.toFixed(2);
-                document.getElementById("y").textContent = "Y: " + a.y.toFixed(2);
-                document.getElementById("z").textContent = "Z: " + a.z.toFixed(2);
+                xEl.textContent = "X: " + a.x.toFixed(2);
+                yEl.textContent = "Y: " + a.y.toFixed(2);
+                zEl.textContent = "Z: " + a.z.toFixed(2);
             });
-        } else {
-            document.body.innerHTML = "<h2>Din enhet stöder inte accelerometer 😡</h2>";
         }
+
+        btn.onclick = async () => {
+            if (typeof DeviceMotionEvent.requestPermission === "function") {
+                try {
+                    const res = await DeviceMotionEvent.requestPermission();
+                    if (res === "granted") {
+                        startMotion();
+                        btn.remove();
+                    } else {
+                        alert("Tillstånd nekades 😡");
+                    }
+                } catch (err) {
+                    alert("Fel: " + err);
+                }
+            } else {
+                // Android eller annan browser som inte kräver tillstånd
+                startMotion();
+                btn.remove();
+            }
+        };
     </script>
 </body>
 </html>
