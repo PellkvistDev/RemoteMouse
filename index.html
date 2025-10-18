@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Accelerometer-data</title>
+    <style>
+        body {
+            background: #111;
+            color: #0f0;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 { margin-bottom: 20px; }
+        .value { font-size: 1.5rem; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>📱 Accelerometer</h1>
+    <div class="value" id="x">X: 0</div>
+    <div class="value" id="y">Y: 0</div>
+    <div class="value" id="z">Z: 0</div>
+
+    <script>
+        if (window.DeviceMotionEvent) {
+            window.addEventListener("devicemotion", event => {
+                const a = event.accelerationIncludingGravity;
+                if (!a) return;
+                document.getElementById("x").textContent = "X: " + a.x.toFixed(2);
+                document.getElementById("y").textContent = "Y: " + a.y.toFixed(2);
+                document.getElementById("z").textContent = "Z: " + a.z.toFixed(2);
+            });
+        } else {
+            document.body.innerHTML = "<h2>Din enhet stöder inte accelerometer 😡</h2>";
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Accelerometer-data</title>
+    <style>
+        body {
+            background: #111;
+            color: #0f0;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 { margin-bottom: 20px; }
+        .value { font-size: 1.5rem; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>📱 Accelerometer</h1>
+    <div class="value" id="x">X: 0</div>
+    <div class="value" id="y">Y: 0</div>
+    <div class="value" id="z">Z: 0</div>
+
+    <script>
+        if (window.DeviceMotionEvent) {
+            window.addEventListener("devicemotion", event => {
+                const a = event.accelerationIncludingGravity;
+                if (!a) return;
+                document.getElementById("x").textContent = "X: " + a.x.toFixed(2);
+                document.getElementById("y").textContent = "Y: " + a.y.toFixed(2);
+                document.getElementById("z").textContent = "Z: " + a.z.toFixed(2);
+            });
+        } else {
+            document.body.innerHTML = "<h2>Din enhet stöder inte accelerometer 😡</h2>";
+        }
+    </script>
+</body>
+</html>
